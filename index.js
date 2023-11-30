@@ -477,6 +477,25 @@ app.get("/tourGuides/:id", async (req, res)=> {
 
   res.status(200).send(tourGuide)
 })
+
+
+// created api to get story data ny id
+app.put("/tourGuides/review/:id", async (req, res)=> {
+  const id = req.params.id;
+  const comment = req.body;
+
+  const filter = {_id: new ObjectId(id)};
+
+  const updateDoc = {
+    $push: {
+      "reviews": comment
+    }
+  }
+
+  const result = await usersCollection.updateOne(filter, updateDoc);
+
+  res.status(200).send(result)
+})
 // ====================bookings api============================
 // created api to get story data
 app.get("/bookings", verifyToken , async (req, res)=> {
