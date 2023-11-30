@@ -9,11 +9,11 @@ const port = process.env.PROT || 5000
 
 
 
-app.use(cors({
-  origin: ["http://localhost:5173" , "https://assignment-12-fawn.vercel.app", "https://assignment-12-git-master-aadelbanat8991-gmailcom.vercel.app", "https://assignment-12-486xzlvv6-aadelbanat8991-gmailcom.vercel.app", `https://api.imgbb.com/1/upload?key=${process.env.UPLOAD_KEY}`] ,
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true
-}))
+// app.use(cors({
+//   origin: ["http://localhost:5173" , "https://assignment-12-fawn.vercel.app", "https://assignment-12-git-master-aadelbanat8991-gmailcom.vercel.app", "https://assignment-12-486xzlvv6-aadelbanat8991-gmailcom.vercel.app", `https://api.imgbb.com/1/upload?key=${process.env.UPLOAD_KEY}`] ,
+//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//   credentials: true
+// }))
 app.use(express.json());
 
 
