@@ -415,9 +415,7 @@ app.put("/users/tourGuide/:id",verifyToken, async (req, res)=> {
   const options = { upsert: true };
 
   const updateDoc = {
-    $set: {
-      role: req.body,
-    },
+    $set: req.body
   };
   // Update the first document that matches the filter
   const result = await usersCollection.updateOne(filter, updateDoc, options);
