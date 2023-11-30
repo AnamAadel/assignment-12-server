@@ -64,7 +64,7 @@ const paymentsCollection = db.collection("payments");
 // middleware to verify token
 const verifyToken = async (req, res, next)=> {
 
-  console.log(req.headers.authorization)
+  
   if(!req.headers.authorization){
     return res.status(401).send({message: "Unauthorized access"})
   }
@@ -110,7 +110,7 @@ app.post("/create-payment-intent", async (req, res)=> {
     
     const price = req.body?.price;
     const amount = parseInt(price * 100);
-    console.log("amount:", price)
+    
 
     // Create a PaymentIntent with the order amount and currency
     if(amount > 0){
@@ -124,13 +124,13 @@ app.post("/create-payment-intent", async (req, res)=> {
       })
     }
 
-  // console.log(paymentIntent)
+  
 })
 
 
 // create api to send token
 app.post("/jwt", async (req, res)=> {
-    console.log(req.body);
+    
     const user = req.body;
     const token = jwt.sign(user, "secret", {expiresIn: "24h"});
 
@@ -345,7 +345,7 @@ app.post("/users", async (req, res)=> {
 
   const existingUser = await usersCollection.findOne({email: req.body.email});
 
-  console.log(existingUser)
+ 
 
   if(existingUser){
     return res.status(200).send({acknowledged: true, insertedId: new ObjectId(existingUser._id)})
@@ -356,9 +356,10 @@ app.post("/users", async (req, res)=> {
 })
 
 // create api to make user admin
-app.get("/users/admin" , async (req, res)=> {
+app.get("/users/userRole" , async (req, res)=> {
   const email = req.query.email;
-  console.log(email)
+  console.log("userRole:", email)
+  
   // if(req.body.decoded.email !== email){
   //   // return res.status(403).send({message: "forbidden access"})
   // }
@@ -371,10 +372,10 @@ app.get("/users/admin" , async (req, res)=> {
   if(existingUser){
     if(existingUser.role){
       
-      console.log({userRole: existingUser.role})
+      
       res.status(200).send({userRole: existingUser.role})
     }else{
-      console.log(existingUser.role)
+      
 
       res.status(200).send({userRole: "tourist"})
     }
@@ -407,7 +408,7 @@ app.put("/users/admin/:id", verifyToken , async (req, res)=> {
 app.put("/users/tourGuide/:id",verifyToken, async (req, res)=> {
   const id = req.params.id;
 
-  console.log(req.body)
+  
 
   const filter = {_id: new ObjectId(id)};
 
@@ -464,7 +465,7 @@ app.get("/tourGuides" , async (req, res)=> {
 // create api to get user data
 app.get("/tourGuides" , async (req, res)=> {
   const email = req.query?.email
-  console.log(email)
+  
   const filter = {email: email}
   const tourGuide = await usersCollection.findOne(filter);
 
@@ -629,7 +630,7 @@ app.post("/payments", async (req, res)=> {
   const payment = req.body;
   const paymentResult = await paymentsCollection.insertOne(payment);
 
-  console.log(paymentResult);
+  
 
   const query = {_id: {
     $in:  payment?.cardIds
@@ -637,7 +638,8 @@ app.post("/payments", async (req, res)=> {
   }};
 
   const deleteResult = await cartCollection.deleteMany(query);
-  console.log(deleteResult)
+  
+  
 
   res.send({paymentResult, deleteResult});
 
