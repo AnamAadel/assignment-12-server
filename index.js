@@ -7,8 +7,17 @@ const stripe = require("stripe")(`${process.env.STRIPE_SECRET_KEY}`)
 const app = express();
 const port = process.env.PROT || 5000
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://assignment-12-git-master-aadelbanat8991-gmailcom.vercel.app');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
+
+
 app.use(cors({
-  origin: ["http://localhost:5173" , "https://assignment-12-fawn.vercel.app", "https://assignment-12-git-master-aadelbanat8991-gmailcom.vercel.app", "https://assignment-12-486xzlvv6-aadelbanat8991-gmailcom.vercel.app"],
+  origin: ["http://localhost:5173" , "https://assignment-12-fawn.vercel.app", "https://assignment-12-git-master-aadelbanat8991-gmailcom.vercel.app", "https://assignment-12-486xzlvv6-aadelbanat8991-gmailcom.vercel.app"] ,
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true
 }))
