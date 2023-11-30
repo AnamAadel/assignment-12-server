@@ -7,7 +7,11 @@ const stripe = require("stripe")(`${process.env.STRIPE_SECRET_KEY}`)
 const app = express();
 const port = process.env.PROT || 5000
 
-app.use(cors())
+app.use(cors({
+  origin: ["http://localhost:5173" , "https://assignment-12-fawn.vercel.app", "https://assignment-12-git-master-aadelbanat8991-gmailcom.vercel.app", "https://assignment-12-486xzlvv6-aadelbanat8991-gmailcom.vercel.app"],
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true
+}))
 app.use(express.json());
 
 
@@ -352,8 +356,8 @@ app.post("/users", async (req, res)=> {
 })
 
 // create api to make user admin
-app.get("/users/admin/:email" , async (req, res)=> {
-  const email = req.params.email;
+app.get("/users/admin" , async (req, res)=> {
+  const email = req.query.email;
   console.log(email)
   // if(req.body.decoded.email !== email){
   //   // return res.status(403).send({message: "forbidden access"})
