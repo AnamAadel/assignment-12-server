@@ -416,7 +416,7 @@ app.put("/users/tourGuide/:id",verifyToken, async (req, res)=> {
 
   const updateDoc = {
     $set: {
-      role: "tourGuide",
+      role: req.body,
     },
   };
   // Update the first document that matches the filter
