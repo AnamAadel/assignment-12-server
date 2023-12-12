@@ -6,7 +6,7 @@ const { MongoClient, ServerApiVersion, ObjectId, LEGAL_TLS_SOCKET_OPTIONS } = re
 const stripe = require("stripe")(`${process.env.STRIPE_SECRET_KEY}`) 
 const app = express();
 const port = process.env.PROT || 5000
-
+const nodemailer = require("nodemailer");
 
 
 // app.use(cors({
@@ -681,4 +681,35 @@ app.post("/cart", async (req, res)=> {
     const result = await cartCollection.insertOne(cartData);
 
     res.status(200).send(result)
+})
+
+
+
+
+// send email api
+
+app.post("/email", async (req, res)=> {
+  const data = req.body;
+console.log(data)
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.ethereal.email',
+    port: 465,
+    port: 587,
+    auth: {
+        user: 'joyce.bode5@ethereal.email',
+        pass: 'MwCPTtZXTPBSq4Zme1'
+    }
+  });
+
+  const info = await transporter.sendMail({
+    from: `"${data.name}" <${data.email}>`, // sender address
+    to: "aadelbanat8991@gmail.com", // list of receivers
+    subject: data.subject, // Subject line
+    text: data.text, // plain text body
+  });
+
+  console.log(info.messageId)
+
+
+    res.status(200).send(info)
 })
